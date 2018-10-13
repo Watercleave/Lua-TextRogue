@@ -67,7 +67,7 @@ print("Loading default menu: " .. _defaultmenu)
 local menu = menufile
 dofile(menu)
 
-return run_menu{outputfunc=printOutput, valuefunc = setUIValue, inputfunc = getInput, clearfunc = clearConsole}
+run_menu{outputfunc=printOutput, valuefunc = setUIValue, inputfunc = getInput, clearfunc = clearConsole}
 
 
 

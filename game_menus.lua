@@ -36,7 +36,9 @@ end
 
 
 function menu_play(args)
+  print("Blah")
   error("Play menu not implemented yet.")
+  print("Bleh")
 end
 
 
