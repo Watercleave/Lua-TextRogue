@@ -1,5 +1,4 @@
-_gameversion = "0.01"
-_defaultmenu = "game_menus.lua"
+-- The most basic UI - just outputs to and gets input from the console
 
 
 -- Definitions
@@ -22,10 +21,13 @@ end
 
 -- Define callbacks
 
-local function printOutput(str)
+local function printOutput(str, clr)
   
-  -- TODO
+  -- Default values
+  clr = clr or false
+  -- TODO Preprocess output
   
+  if clr then clearConsole() end
   print(str)
   
 end
@@ -38,19 +40,20 @@ local function setUIValue(key, value)
   
 end
 
-
+-- Get input from the console
+-- inputType = line|char|int|num
 local function getInput(inputType, prompt)
 
   inputType = inputType or "line"
   prompt = prompt or defaultprompt
   
-  -- TODO: Check inputType
-  
   wout(prompt)
+  
+  local input = rin()
   
   -- TODO: Post-process input to match inputType
   
-  return rin()
+  return input
 
 end
 
@@ -61,10 +64,10 @@ print("Starting console.")
 print("Version " .. _gameversion)
 
 print("Loading default menu: " .. _defaultmenu)
-local menu = _defaultmenu
+local menu = menufile
 dofile(menu)
 
-run_menu{outputfunc=printOutput, valuefunc = setUIValue, inputfunc = getInput}
+return run_menu{outputfunc=printOutput, valuefunc = setUIValue, inputfunc = getInput, clearfunc = clearConsole}
 
 
 
