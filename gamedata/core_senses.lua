@@ -10,3 +10,5 @@
 -- cSensor: Any object that can receive sense signals
 --          One cSensor object covers all senses
 -- TODO
+
+-- TODO Propogation functions for senses

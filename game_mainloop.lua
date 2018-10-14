@@ -12,6 +12,7 @@ function Game:new(o)
   -- Game.objects is an ID-indexed list of objects (tables)
   o.objects = {}
   o.nextID = o.nextID or 0
+  o.playerActor = -1
   
   -- Game.schedule is a table, indexed by timepoint (as integers), containing a list of all actors to execute
   -- at each (indexed) timepoint.
@@ -55,6 +56,27 @@ end
 
 -- Alias for Game:GetObject(id)
 function Game:g(id) return self.GetObject(id) end
+
+function Game:SetPlayerActor(id)
+  
+  if self.playerActor >= 0 then
+    -- There is already a player actor.
+    -- TODO reset that actor to their default Act().
+  end
+  
+  local newPlayerActor = self:g(id)
+  self.playerActor = newPlayerActor
+  newPlayerActor.components.actor.Act = function()
+    
+    -- TODO Get input
+    -- TODO Parse input
+    -- TODO Perform action
+    -- TODO Return scheduling delay
+    
+  end
+  
+end
+
 
 function Game:Run()
   

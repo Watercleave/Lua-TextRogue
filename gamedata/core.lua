@@ -134,6 +134,9 @@ cVocabObject.distinguishers = {}
 -- cActor: Objects which can act under their own power.
 -- TODO
 cActor = {__metatable=cActor, __index = cActor}
+
+-- The cActor selects and performs an action.
+-- Returns the scheduling offset (int time until their next action)
 function cActor:Act()
   error("cActor " .. self .. " in " .. self.owner .. " does not override cActor:Act()")
 end
