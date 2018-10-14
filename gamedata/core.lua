@@ -138,12 +138,14 @@ function cActor:Act()
   error("cActor " .. self .. " in " .. self.owner .. " does not override cActor:Act()")
 end
 
+
 -- cScheduled: Objects which "trigger" at regular intervals.
 -- TODO
 cScheduled = {__metatable=cActor, __index=cActor}
 function cScheduled:Trigger()
   error("cScheduled " .. self .. " in " .. self.owner .. " does not override cScheduled:Trigger()")
 end
+
 
 -- cInventoryObject: Any 'object' (normally a cActor) with an inventory
 -- TODO
