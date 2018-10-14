@@ -17,7 +17,7 @@ local function GetValueFromComponent(obj, value)
   
   assert(obj.components)
   
-  for _, component in ipairs(obj.components) do
+  for _, component in pairs(obj.components) do
     
     if component[value]then
       return component[value]
@@ -67,7 +67,7 @@ function GameObject:new(game, components, args)
   o.game = game
   o.components = components
   
-  for _, v in ipairs(i.components) do
+  for _, v in pairs(i.components) do
     v.initialise(game, o, args) -- Initialise each of the components
     v.owner = o
   end
@@ -145,72 +145,6 @@ function cScheduled:Trigger()
   error("cScheduled " .. self .. " in " .. self.owner .. " does not override cScheduled:Trigger()")
 end
 
--- cRoom: Rooms, which can contain other objects
--- TODO
-cRoom = {__metatable=cRoom, __index=cRoom}
-cRoom.contents = {} -- Keys = object IDs, value = true OR nil
-cRoom.exits = {} -- String-indexed list of either cRooms or cLinks
-
--- Can the actor enter the room? Returns true or false.
--- Announces reason for failure unless silent=true
-function cRoom:CanEnter(actor, movetype, silent)
-  
-  movetype = movetype or "walk"
-  
-  -- TODO
-  
-end
-
--- Can the actor exit the room? Returns true or false.
--- Announces reason for failure unless silent=true
-function cRoom:CanExit(actor, movetype, silent)
-  
-  movetype = movetype or "walk"
-  
-  -- TODO
-  
-end
-
--- Physically move the actor into the room (and out of their previous one)
--- Announces their departure and arrival (unless silent_*=true)
-function cRoom:MoveInto(actor, movetype, silent_depart, silent_arrive)
-  
-  movetype = movetype or "walk"
-  -- TODO
-  
-end
-
-
--- cContainerObject: Objects which can contain other objects
--- TODO
-cContainerObject = {__metatable=cContainerObject, __index=cContainerObject}
-cContainerObject.contents = {} -- Keys = object IDs, value = true OR nil
-
--- Can item be placed by actor into the container?
--- Announces reason for failure unless silent=true
-function cContainerObject:CanPlaceInto(item, actor, silent)
-  
-  -- TODO
-  
-end
-
--- Can item be removed from the container by the actor?
--- Announces reason for failure unless silent=true
-function cContainerObject:CanGetFrom(item, actor, silent)
-  
-  -- TODO
-  
-end
-
--- Actually moves the item from its previous container/room into this one
--- Announces movement unless silent=true
-function cContainerObject:MoveInto(item, actor, silent)
-  
-  -- TODO
-  
-end
-
-
 -- cInventoryObject: Any 'object' (normally a cActor) with an inventory
 -- TODO
 cInventoryObject = {__metatable=cInventoryObject, __index=cInventoryObject}
@@ -239,45 +173,3 @@ function cInventoryObject:Get(item, silent)
   -- TODO
   
 end
-
-
-
-
--- cItem: Objects which can be picked up and carried
--- TODO
-cItem = {__metatable=cItem, __index=cItem}
-cItem.size = 1 -- Nominally, number of coke cans (volume)
-cItem.weight = 0 -- Nominally, in kg
-
--- cWieldable: Objects which can be used in combat
--- TODO
-
--- cWearable
--- TODO
-
--- cConsumable
--- TODO
-
--- cBody: Objects which have a living(-ish) body that can take damage etc.
--- TODO
-
--- cDamageable: Objects which can be damaged or broken
--- TODO
-
--- cLightSource
--- TODO
-
--- cSenseObject: Any object that can be detected by one or more senses
---               One cSenseObject per sense
--- TODO
-
--- cSensor: Any object that can receive sense signals
---          One cSensor object covers all senses
--- TODO
-
--- cEffect: Any object that is primarily an effect applied to another object (eg. poison, buffs, debuffs...)
--- TODO
-
--- cFreezeable: Any object (usually high-overhead ones) which can be "frozen" (stopping processing) and then
---              "thawed" at a later date, catching up as needed based on the time spent frozen.
--- TODO
