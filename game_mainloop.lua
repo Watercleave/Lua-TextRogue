@@ -43,6 +43,18 @@ function Game:AddObject(object)
   
 end
 
+-- Returns an object based on its ID reference
+function Game:GetObject(id)
+  
+  -- Assert that the object exists
+  assert(self.objects[id], "Tried to get object with ID: " .. id .. "; No such ID.")
+  
+  return self.objects[id]
+  
+end
+
+-- Alias for Game:GetObject(id)
+function Game:g(id) return self.GetObject(id) end
 
 function Game:Run()
   
