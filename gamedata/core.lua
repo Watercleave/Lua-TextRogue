@@ -12,7 +12,7 @@ GameObject = {}
 GameObject.__metatable = GameObject
 
 -- If a non-GameObject method  or variable is called on a GameObject, we traverse its components until we
--- find one to handle the or provide the variable. If there is none, raise an error.
+-- find one to handle the method or provide the variable. If there is none, raise an error.
 local function GetValueFromComponent(obj, value)
   
   assert(obj.components)

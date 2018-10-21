@@ -18,6 +18,10 @@ function Game:new(o)
   -- at each (indexed) timepoint.
   o.schedule = {}
   
+  -- Time is measured in milliseconds. At each integer timestep, the actors and schedulables
+  -- scheduled there are run, in the order they were recieved.
+  o.time = 0 
+  
   return o
   
 end
@@ -66,7 +70,7 @@ function Game:SetPlayerActor(id)
   
   local newPlayerActor = self:g(id)
   self.playerActor = newPlayerActor
-  newPlayerActor.components.actor.Act = function()
+  newPlayerActor.components.actor.Act = function(self)
     
     -- TODO Get input
     -- TODO Parse input
@@ -78,9 +82,50 @@ function Game:SetPlayerActor(id)
 end
 
 
+-- Schedule the object with the given id to run or act at a specified time after "now".
+function Game:Schedule(id, offset)
+  
+  -- Get the offset time at which to schedule the object.
+  local time = offset + self.time
+  
+  -- Initialise the list for this timestep
+  if not self.schedule[time] then
+    self.schedule[time] = {}
+  end
+  
+  table.insert(self.schedule[time], id)
+  
+end
+
+
 function Game:Run()
   
-  -- TODO Game loop code goes here
+  
+  while(true) do
+    
+    -- If there is anything scheduled to happen at this timestep...
+    if self.schedule[self.time] then
+      
+      -- Iterate through everything scheduled to happen at this timestep.
+      for _, v in ipairs(self.schedule[self.time]) do
+        
+        local obj = self:g(v) -- Get the actual object reference
+        
+        if obj.components.cActor then
+          local offset = obj:Act() -- Have the actor act; this returns the offset to the next action.
+          self:Schedule(v, offset)
+        elseif obj.components.cScheduled then
+          local offset = obj:Trigger()
+          self:Schedule(v, offset)
+        else
+          error("Scheduled object " .. v .. " has neither cActor nor cScheduled")
+        end
+      end
+      
+    end
+    
+  end
+  
   
 end
 
